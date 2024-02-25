@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  python3.11
+
+  Boilerplate for Python + Lambda Function URL + Docker
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    MemorySize: 128
+    Timeout: 3
+    Architectures:
+      - x86_64
+
+Resources:
+  # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  healthz:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: py-lambda-docker-healthz
+      PackageType: Image
+      FunctionUrlConfig:
+        AuthType: AWS_IAM
+    Metadata:
+      DockerContext: ./src/healthz
+      Dockerfile: Dockerfile
+      DockerTag: py-lambda-docker-healthz
+  torchtest:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: py-lambda-docker-torchtest
+      #MemorySize: 10240 # Max, or lower depending on account. 1769 = 1 vCPU.
+      #Timeout: 900 # Max
+      MemorySize: 1770
+      Timeout: 10
+      PackageType: Image
+      FunctionUrlConfig:
+        AuthType: AWS_IAM
+    Metadata:
+      DockerContext: ./src/torchtest
+      Dockerfile: Dockerfile
+      DockerTag: py-lambda-docker-torchtest
