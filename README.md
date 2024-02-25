@@ -98,12 +98,15 @@ pdm sam-build
 
 Make sure `AWS_REGION` and `AWS_ACCOUNT_ID` are set in `.env` environment variables. These are needed to login Docker to ECR.
 
-### Lambda
-
 Sign into AWS SSO using a user that can deploy:
 
 ```bash
 aws sso login --profile admin
+```
+
+Login Docker to AWS ECR:
+```bash
+pdm docker-login
 ```
 
 This run script triggers a build and also outputs the deployed Lambda Function URL for convenience:
